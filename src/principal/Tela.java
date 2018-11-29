@@ -1,3 +1,4 @@
+
 package principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +72,7 @@ public class Tela {
         JPanel painel1 = new JPanel();
         pr.setBounds(422, 45, 146, 14);
 		pr.setStringPainted(true);
+		pr.setVisible(false);
         painel1.add(pr);
         JButton btnBuscar = new JButton("Buscar");
         btnBuscar.setBounds(10, 36, 100, 23);
@@ -90,11 +92,13 @@ public class Tela {
 		            }
 		            FileWriter fw;
 					try {
+						System.out.println("entrou");
 						fw = new FileWriter(file.getAbsoluteFile());
 						BufferedWriter bw = new BufferedWriter(fw);	
 			            bw.write(txtInput.getText());
 			            bw.close();
-			            w.execute();
+			            pr.setVisible(true);
+			            getSwingWorker().execute();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -108,7 +112,14 @@ public class Tela {
 		JLabel lblPalavrachave = new JLabel("Palavra-chave");
 		lblPalavrachave.setBounds(10, 11, 100, 14);
 		tabbedPane.setLocation(10, 73);
-		modelConsulta = new DefaultTableModel();
+		modelConsulta = new DefaultTableModel() {
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+			
+		};
 		modelConsulta.addColumn("Usuário");
 		modelConsulta.addColumn("Tweet");	
 		modelConsulta.addColumn("Data");
@@ -129,15 +140,22 @@ public class Tela {
         
         
         tableConsulta.getColumnModel().getColumn(0).setPreferredWidth(130);
-        tableConsulta.getColumnModel().getColumn(1).setPreferredWidth(826);
-        tableConsulta.getColumnModel().getColumn(2).setPreferredWidth(70);
+        tableConsulta.getColumnModel().getColumn(1).setPreferredWidth(726);
+        tableConsulta.getColumnModel().getColumn(2).setPreferredWidth(170);
 		return painel1;
     }
 	
 	public JComponent painelListagem() {
         JPanel painel2 = new JPanel(); 
         tabbedPane.setLocation(10, 73);
-        modelListagem = new DefaultTableModel();
+        modelListagem = new DefaultTableModel(){
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+			
+		};
         modelListagem.addColumn("Usuário");
         modelListagem.addColumn("Tweet");	
         modelListagem.addColumn("Data");
@@ -165,8 +183,8 @@ public class Tela {
         label.setBounds(10, 11, 100, 14);
         painel2.add(label);
         tableListagem.getColumnModel().getColumn(0).setPreferredWidth(130);
-        tableListagem.getColumnModel().getColumn(1).setPreferredWidth(824);
-        tableListagem.getColumnModel().getColumn(2).setPreferredWidth(70);
+        tableListagem.getColumnModel().getColumn(1).setPreferredWidth(724);
+        tableListagem.getColumnModel().getColumn(2).setPreferredWidth(170);
 		return painel2;
     }
 	
@@ -190,22 +208,29 @@ public class Tela {
 		}
 	}
 	
-	final SwingWorker w = new SwingWorker() {
-        @Override
-        protected Object doInBackground() throws Exception {
-            Process process = Runtime.getRuntime().exec("app.bat");
-            for (int i = 1; i <= 100; i++) {
-                try {
-                    pr.setValue(i);
-                    pr.setString(i + "%");
-                    Thread.sleep(50);
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
-            }
-            setTabela(txtInput.getText());
-            return 0;
-        }
-    };
+	private SwingWorker getSwingWorker(){
+		return new SwingWorker() {
+	        @Override
+	        protected Object doInBackground() throws Exception {
+	        	System.out.println("deu");
+	            Process process = Runtime.getRuntime().exec("app.bat");
+	            
+	            for (int i = 1; i < 101; i++) {
+	                try {
+	                    pr.setValue(i);
+	                    pr.setString(i + "%");
+	                    Thread.sleep(50);
+	                } catch (InterruptedException ex) {
+	                    ex.printStackTrace();
+	                }
+	            }
+	            setTabela(txtInput.getText());
+	            pr.setVisible(false);
+	            pr.setValue(0);
+	            pr.setString(0 + "%");
+				return process;  
+	        }
+	    };
+	}
 }
 

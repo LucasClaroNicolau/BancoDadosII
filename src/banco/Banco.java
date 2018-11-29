@@ -14,7 +14,7 @@ public class Banco{
     private static final String HOST = "localhost:3306";
     private static final String BANCO = "bigdata";
     private static final String USUARIO = "root";
-    private static final String SENHA = "admin";
+    private static final String SENHA = "comp12";
     private static final String URL = "jdbc:mysql://" + HOST + "/" + BANCO + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 
     private static Connection conexao = null;
@@ -56,7 +56,7 @@ public class Banco{
         }
     }
     
-    public static List select(){
+    public static List<Leads> select(){
     	List<Leads> leads = new ArrayList<>();
         String  sql = "SELECT * FROM leads;";
 
@@ -69,7 +69,7 @@ public class Banco{
                 lead.setId(rs.getInt("id"));
                 lead.setUsername(rs.getString("username"));
                 lead.setTweet(rs.getString("tweet"));
-                lead.setDataAtual(rs.getString("data"));
+                lead.setDataAtual(rs.getString("date"));
                 leads.add(lead);
             }
 
@@ -93,7 +93,7 @@ public class Banco{
                 lead.setId(rs.getInt("id"));
                 lead.setUsername(rs.getString("username"));
                 lead.setTweet(rs.getString("tweet"));
-                lead.setDataAtual(rs.getString("data"));
+                lead.setDataAtual(rs.getString("date"));
                 leads.add(lead);
             }
 

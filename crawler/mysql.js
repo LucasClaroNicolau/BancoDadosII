@@ -3,7 +3,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: 'admin',
+    password: 'comp12',
     database: 'bigdata'
 });
 
@@ -18,7 +18,7 @@ function createTable(conn) {
 		"UNIQUE INDEX `tweet_UNIQUE` (`tweet` ASC) VISIBLE);";
 
     conn.query(sql, function (error, results, fields) {
-        if (error) return console.log('aaaaaaaaaaaaaaaaaa',error);
+        if (error) return console.log('',error);
         console.log('criou a tabela!');
     });
 }
@@ -31,14 +31,14 @@ exports.addRows = function(data) {
     connection.query(sql, values, function (error, results, fields) {
         if (error){
             
-            return console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', error);
+            return console.log('', error);
         }
     }).end();
 }
 
 exports.conectar = function(){
     connection.connect(function (err) {
-        if (err) return console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',err);
+        if (err) return console.log('',err);
         console.log('conectou!');
 
         createTable(connection);
