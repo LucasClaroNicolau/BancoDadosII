@@ -7,6 +7,13 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+
 import banco.Banco;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -62,8 +69,6 @@ public class Tela {
 	    tabbedPane.setVisible(true);
 	    tabbedPane.setSize(1054, 608);
 	    frame.getContentPane().add(tabbedPane);
-	    
-		
 		
 		
 	}
@@ -92,7 +97,6 @@ public class Tela {
 		            }
 		            FileWriter fw;
 					try {
-						System.out.println("entrou");
 						fw = new FileWriter(file.getAbsoluteFile());
 						BufferedWriter bw = new BufferedWriter(fw);	
 			            bw.write(txtInput.getText());
@@ -140,8 +144,8 @@ public class Tela {
         
         
         tableConsulta.getColumnModel().getColumn(0).setPreferredWidth(130);
-        tableConsulta.getColumnModel().getColumn(1).setPreferredWidth(726);
-        tableConsulta.getColumnModel().getColumn(2).setPreferredWidth(170);
+        tableConsulta.getColumnModel().getColumn(1).setPreferredWidth(724);
+        tableConsulta.getColumnModel().getColumn(2).setPreferredWidth(157);
 		return painel1;
     }
 	
@@ -184,9 +188,11 @@ public class Tela {
         painel2.add(label);
         tableListagem.getColumnModel().getColumn(0).setPreferredWidth(130);
         tableListagem.getColumnModel().getColumn(1).setPreferredWidth(724);
-        tableListagem.getColumnModel().getColumn(2).setPreferredWidth(170);
+        tableListagem.getColumnModel().getColumn(2).setPreferredWidth(157);
 		return painel2;
     }
+	
+	
 	
 	public void setTabela(String palavra){
 		modelConsulta.setRowCount(0);
@@ -212,7 +218,6 @@ public class Tela {
 		return new SwingWorker() {
 	        @Override
 	        protected Object doInBackground() throws Exception {
-	        	System.out.println("deu");
 	            Process process = Runtime.getRuntime().exec("app.bat");
 	            
 	            for (int i = 1; i < 101; i++) {

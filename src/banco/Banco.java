@@ -14,7 +14,7 @@ public class Banco{
     private static final String HOST = "localhost:3306";
     private static final String BANCO = "bigdata";
     private static final String USUARIO = "root";
-    private static final String SENHA = "comp12";
+    private static final String SENHA = "admin";
     private static final String URL = "jdbc:mysql://" + HOST + "/" + BANCO + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 
     private static Connection conexao = null;
