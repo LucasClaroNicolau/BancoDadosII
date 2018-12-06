@@ -75,7 +75,7 @@ public class Tela {
 		
 		tabbedPane.addTab("Consulta", painelConsulta());
 	    tabbedPane.addTab("Listagem", painelListagem());
-	    tabbedPane.addTab("Instituições", painelInstituicao());
+	    tabbedPane.addTab("Instituiï¿½ï¿½es", painelInstituicao());
 	    tabbedPane.addTab("Campanhas", painelCampanha());
 	    tabbedPane.setVisible(true);
 	    tabbedPane.setSize(1054, 608);
@@ -135,7 +135,7 @@ public class Tela {
 			}
 			
 		};
-		modelConsulta.addColumn("Usuário");
+		modelConsulta.addColumn("Usuï¿½rio");
 		modelConsulta.addColumn("Tweet");	
 		modelConsulta.addColumn("Data");
         painel1.setLayout(null);
@@ -171,7 +171,7 @@ public class Tela {
 			}
 			
 		};
-        modelListagem.addColumn("Usuário");
+        modelListagem.addColumn("Usuï¿½rio");
         modelListagem.addColumn("Tweet");	
         modelListagem.addColumn("Data");
         painel2.setLayout(null);
@@ -220,6 +220,7 @@ public class Tela {
 			}
 			
 		};
+		modelInstituicao.addColumn("CÃ³digo");
 		modelInstituicao.addColumn("Nome");
 		modelInstituicao.addColumn("CNPJ");
         painel3.setLayout(null);
@@ -295,7 +296,7 @@ public class Tela {
         button.setBounds(10, 36, 100, 23);
         painel3.add(button);
         
-        JLabel label = new JLabel("Instituições");
+        JLabel label = new JLabel("Instituiï¿½ï¿½es");
         label.setBounds(10, 11, 100, 14);
         painel3.add(label);
         tableInstituicao.getColumnModel().getColumn(0).setPreferredWidth(800);
@@ -320,7 +321,7 @@ public class Tela {
 			}
 			
 		};
-		modelCampanha.addColumn("Instituição");
+		modelCampanha.addColumn("Instituiï¿½ï¿½o");
 		modelCampanha.addColumn("Palavras-Chave");
         painel4.setLayout(null);
         
@@ -333,9 +334,9 @@ public class Tela {
         lblNewLabel.setBounds(10, 11, 86, 14);
         internalFrame.getContentPane().add(lblNewLabel);
         
-        JComboBox comboBox = new JComboBox();
-        comboBox.setBounds(10, 36, 300, 20);
-        internalFrame.getContentPane().add(comboBox);
+        JTextField intituicaoId = new JTextField();
+		intituicaoId.setBounds(10, 36, 300, 20);
+        internalFrame.getContentPane().add(intituicaoId);
         
         JLabel lblNewLabel_1 = new JLabel("Palavra-Chave");
         lblNewLabel_1.setBounds(10, 67, 86, 14);
@@ -353,6 +354,7 @@ public class Tela {
         		Campanhas camp = new Campanhas();
         		//camp.setInstituicao(comboBox.getSelectedIndex());
         		camp.setPalavrasChave(textField.getText());
+        		camp.setInstituicaoId(new Integer(intituicaoId.getText()));
         		try {
 					Banco.insetCamp(camp);
 					textField.setText("");
@@ -428,7 +430,7 @@ public class Tela {
 		List<Campanhas> camp = new ArrayList<Campanhas>();
 		camp = Banco.selectCamp();
 		for(Campanhas c : camp) {
-			String[] add = {c.getInstituicao().toString(),c.getPalavrasChave()};
+			String[] add = {c.getInstituicaoId().toString(),c.getPalavrasChave()};
 			modelCampanha.addRow(add);
 		}
 	}
@@ -438,7 +440,7 @@ public class Tela {
 		List<Instituicao> inst = new ArrayList<Instituicao>();
 		inst = Banco.selectInst();
 		for(Instituicao i :inst) {
-			String[] add = {i.getNome(),i.getCnpj()};
+			String[] add = {i.getId().toString(), i.getNome(),i.getCnpj()};
 			modelInstituicao.addRow(add);
 		}
 	}

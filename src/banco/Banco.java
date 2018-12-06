@@ -16,7 +16,7 @@ public class Banco{
     private static final String HOST = "localhost:3306";
     private static final String BANCO = "bigdata";
     private static final String USUARIO = "root";
-    private static final String SENHA = "admin";
+    private static final String SENHA = "1";
     private static final String URL = "jdbc:mysql://" + HOST + "/" + BANCO + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 
     private static Connection conexao = null;
@@ -27,9 +27,9 @@ public class Banco{
         if(conexao == null){
             try{
                 conexao = DriverManager.getConnection(URL, USUARIO, SENHA);
-                JOptionPane.showMessageDialog(null, "======== CONEXÃO INICIADA ========");
+                JOptionPane.showMessageDialog(null, "======== CONEXï¿½O INICIADA ========");
             }catch (Exception e1){
-            	JOptionPane.showMessageDialog(null, "Não foi possível se conectar a base de dados");
+            	JOptionPane.showMessageDialog(null, "Nï¿½o foi possï¿½vel se conectar a base de dados");
             	System.out.println(e1);
                 
             }
@@ -50,9 +50,9 @@ public class Banco{
         if(conexao != null){
             try{
                 conexao.close();
-                JOptionPane.showMessageDialog(null, "======== CONEXÃO FECHADA ========");
+                JOptionPane.showMessageDialog(null, "======== CONEXï¿½O FECHADA ========");
             }catch (Exception e1){
-                JOptionPane.showMessageDialog(null, "Não foi possível ao fechar a conexão com a base de dados");
+                JOptionPane.showMessageDialog(null, "Nï¿½o foi possï¿½vel ao fechar a conexï¿½o com a base de dados");
                 
             }
         }
@@ -108,10 +108,11 @@ public class Banco{
     
     public static void createTableCamp(){
         String  sql = "CREATE TABLE IF NOT EXISTS campanhas (\n" + 
-        		"id int UNSIGNED NOT NULL AUTO_INCREMENT,\n" + 
-        		"instituicao varchar(200)  NULL,\n" + 
-        		"palavrasChave varchar(200) NULL,\n" + 
-        		"PRIMARY KEY (id));";
+        		"id int NOT NULL AUTO_INCREMENT,\n" +
+        		"instituicao_id int NOT NULL,\n" +
+        		"palavrasChave varchar(200) NULL,\n" +
+                "primary key(id)" +
+                ");";
 
         try{
             Statement st = conexao.createStatement();
@@ -124,8 +125,15 @@ public class Banco{
     
     public static void insetCamp(Campanhas campanha) throws SQLException {
     	createTableCamp();
-    	 String query = "INSERT INTO campanhas(instituicao,palavraschave) VALUES ("+campanha.getInstituicao()+","+campanha.getPalavrasChave()+")";
-    	 PreparedStatement stmt = conexao.prepareStatement(query);
+    	 String query = "INSERT INTO campanhas(instituicao_id,palavraschave) VALUES (?,?)";
+    	 conexao.prepareStatement(query);
+
+        PreparedStatement stmt = conexao.prepareStatement(query);
+
+        stmt.setInt(1, campanha.getInstituicaoId());
+        stmt.setString(2, campanha.getPalavrasChave());
+        stmt.execute();
+        stmt.close();
     }
     
     public static List selectCamp(){
@@ -138,7 +146,7 @@ public class Banco{
             while (rs.next())
             {
             	Campanhas cmp = new Campanhas();
-                //cmp.setInstituicao(rs.getString("instituicao"));
+                cmp.setInstituicaoId(rs.getInt("instituicao_id"));
                 cmp.setPalavrasChave(rs.getString("palavrasChave"));
                 camp.add(cmp);
             }
@@ -187,13 +195,14 @@ public class Banco{
             while (rs.next())
             {
             	Instituicao insti = new Instituicao();
+            	insti.setId(rs.getInt("id"));
                 insti.setNome(rs.getString("nome"));
                 insti.setCnpj(rs.getString("cnpj"));
                 inst.add(insti);
             }
 
         }catch(Exception e){
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 		return inst;
     }

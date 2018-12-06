@@ -4,6 +4,8 @@ public class Campanhas {
 
 	private Instituicao instituicao;
 	private String palavrasChave;
+
+	private Integer instituicaoId; //No banco só armazena o id da instituição
 		
 	public Instituicao getInstituicao() {
 		return instituicao;
@@ -20,9 +22,12 @@ public class Campanhas {
 	public void setPalavrasChave(String palavrasChave) {
 		this.palavrasChave = palavrasChave;
 	}
-	
-	
-	
-	
-	
+
+	public Integer getInstituicaoId() {
+		return instituicaoId;
+	}
+
+	public void setInstituicaoId(Integer instituicaoId) {
+		this.instituicaoId = instituicaoId;
+	}
 }
