@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import principal.Campanhas;
+import principal.Instituicao;
 import principal.Leads;
 
 public class Banco{
@@ -102,5 +104,100 @@ public class Banco{
         }
 		return leads;
     }
+
+    
+    public static void createTableCamp(){
+        String  sql = "CREATE TABLE IF NOT EXISTS campanhas (\n" + 
+        		"id int UNSIGNED NOT NULL AUTO_INCREMENT,\n" + 
+        		"instituicao varchar(200)  NULL,\n" + 
+        		"palavrasChave varchar(200) NULL,\n" + 
+        		"PRIMARY KEY (id));";
+
+        try{
+            Statement st = conexao.createStatement();
+            st.execute(sql);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    public static void insetCamp(Campanhas campanha) throws SQLException {
+    	createTableCamp();
+    	 String query = "INSERT INTO campanhas(instituicao,palavraschave) VALUES ("+campanha.getInstituicao()+","+campanha.getPalavrasChave()+")";
+    	 PreparedStatement stmt = conexao.prepareStatement(query);
+    }
+    
+    public static List selectCamp(){
+    	List<Campanhas> camp = new ArrayList<>();
+        String  sql = "SELECT * FROM campanhas;";
+
+        try{
+            Statement st = conexao.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next())
+            {
+            	Campanhas cmp = new Campanhas();
+                //cmp.setInstituicao(rs.getString("instituicao"));
+                cmp.setPalavrasChave(rs.getString("palavrasChave"));
+                camp.add(cmp);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+		return camp;
+    }
+
+    
+    public static void createTableInst(){
+        String  sql = "CREATE TABLE IF NOT EXISTS instituicao (\n" + 
+        		"id int UNSIGNED NOT NULL AUTO_INCREMENT,\n" + 
+        		"nome varchar(200)  NULL,\n" + 
+        		"cnpj varchar(200) NULL,\n" + 
+        		"PRIMARY KEY (id));";
+
+        try{
+            Statement st = conexao.createStatement();
+            st.execute(sql);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    public static void insetInst(Instituicao instituicao) throws SQLException {
+    	createTableInst();
+    	 String query = "INSERT INTO instituicao(nome,cnpj) VALUES (?,?)";
+    	 PreparedStatement stmt = conexao.prepareStatement(query);
+    	 
+    	 stmt.setString(1, instituicao.getNome());  
+         stmt.setString(2, instituicao.getCnpj());  
+         stmt.execute();   
+         stmt.close();  
+    }
+    
+    public static List selectInst(){
+    	List<Instituicao> inst = new ArrayList<>();
+        String  sql = "SELECT * FROM instituicao;";
+
+        try{
+            Statement st = conexao.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next())
+            {
+            	Instituicao insti = new Instituicao();
+                insti.setNome(rs.getString("nome"));
+                insti.setCnpj(rs.getString("cnpj"));
+                inst.add(insti);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+		return inst;
+    }
+    
+    
 
 }
